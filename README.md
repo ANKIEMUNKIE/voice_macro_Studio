@@ -2,13 +2,22 @@
 
 Voice Macro Studio is an Android accessibility app for teaching a simple app interaction once and replaying it with a spoken command. This hackathon build focuses on one learned, single-tap food item in Zomato, with verified quantity replay from 1 to 5. Commands are matched locally against flows the user has taught; the app does not invent new workflows or place orders.
 
+## Team STRAWHATS
+
+- Soumya Ranjan Sahoo
+- Sandesh Anand
+- G Vivek
+- Ankit Kumar Yadav
+
 ## Hackathon Submission
 
 - **Source repository:** [ANKIEMUNKIE/voice_macro_Studio](https://github.com/ANKIEMUNKIE/voice_macro_Studio)
 - **Demo video:** [Watch the demonstration](https://youtu.be/HedNCph6ZhA)
 - **Installable APK:** [Download v0.4.0 quantity demo](https://github.com/ANKIEMUNKIE/voice_macro_Studio/raw/refs/heads/main/dist/VoiceMacroStudio-v0.4.0-quantity-debug.apk)
 - **Required Git tag:** [`PRISM_GENAI_HACKATHON_Y2026`](https://github.com/ANKIEMUNKIE/voice_macro_Studio/tree/PRISM_GENAI_HACKATHON_Y2026)
-- **Presentation:** to be added when the presentation file is provided.
+- **Presentation:** [Voice Macro Studio — STRAWHATS (.pptx)](docs/Voice-Macro-Studio-STRAWHATS.pptx)
+- **AI disclosure:** [Development tools and runtime AI disclosure](AI_DISCLOSURE.md)
+- **Runtime requirements note:** [`requirements.txt`](requirements.txt) explains why the Android project has no Python package requirements.
 
 The APK is debug-signed for evaluation and is not a production Play Store release. Its SHA-256 is `22B67F650F26DE9C9C74A7F5F321A77246C58261DEACD3397A2B4AE0C3327566` (also recorded in [`dist/SHA256SUMS.txt`](dist/SHA256SUMS.txt)).
 
@@ -75,6 +84,22 @@ flowchart TD
 	C --> F
 ```
 
+The runtime pipeline is deliberately bounded: speech recognition proposes alternatives; deterministic code matches a saved flow and parses an optional quantity; the service checks the current screen; a semantic-and-spatial selector resolves the demonstrated control; Android performs one accessibility action; and a structural postcondition must confirm a changed UI state before the next action or a completion message.
+
+## Tech Stack
+
+| Layer | Technology | Role |
+| --- | --- | --- |
+| Language and application | Kotlin 2.0.21, Android SDK 36, minimum SDK 26 | Native Android app and accessibility-service implementation |
+| Automation surface | Android `AccessibilityService` | Observe supported UI events, resolve controls, and dispatch bounded actions |
+| Voice and feedback | Android `SpeechRecognizer`, Android text-to-speech | Capture command alternatives and speak status without a paid API |
+| Local persistence | Room 2.7.2 | Store learned flows and ordered steps in private app storage |
+| Matching and safety | Deterministic Kotlin components | Flow matching, quantity parsing, selector scoring, sensitive-screen policy, and postcondition checks |
+| Build toolchain | Gradle 8.13, Android Gradle Plugin 8.11.1, Java 17 | Reproducible builds, unit tests, lint, and APK assembly |
+| Tests | JUnit, Robolectric, MockK | JVM coverage for capture, intent, replay selection, quantities, and safety policy |
+
+No API key, paid LLM, cloud database, or target-app SDK is required. The runtime does not call a generative-AI service.
+
 ### Main Components
 
 | Component | Implementation |
@@ -96,6 +121,8 @@ flowchart TD
 - During an explicitly started teaching session, selectors and text values needed to reproduce the demonstrated flow are stored in the app's private Room database. Do not teach with credentials, OTPs, payment data, or other sensitive personal information.
 - Learned flows and history are local to the device. **Delete all learned flows** in the app removes learned flows and replay history.
 - The runtime does not call a generative-AI service. Speech recognition and text-to-speech use Android platform services; flow matching and quantity parsing are deterministic local code. GitHub Copilot was used as a development and documentation assistant.
+
+The complete disclosure, including OpenAI Codex assistance and human-review responsibilities, is in [`AI_DISCLOSURE.md`](AI_DISCLOSURE.md).
 
 ## Requirements
 
@@ -204,5 +231,19 @@ app/src/main/java/dev/voicemacro/studio/
   MacroAccessibilityService.kt
 app/src/test/  JVM tests for capture, intent, replay, and safety
 dist/          Checksum and evaluation APK
+docs/          Hackathon presentation
 gradle/        Gradle wrapper configuration
 ```
+
+## Submission Checklist
+
+- [x] Source code
+- [x] Presentation
+- [x] Demo video link
+- [x] AI disclosure
+- [x] Detailed README
+- [x] Evaluation APK and SHA-256 checksum
+- [x] Git tag `PRISM_GENAI_HACKATHON_Y2026`
+- [x] Runtime requirements note
+
+The repository tag identifies the complete submitted baseline, including the presentation and disclosure.

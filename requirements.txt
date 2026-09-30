@@ -1,0 +1,9 @@
+# Voice Macro Studio is an Android/Kotlin project and has no Python runtime dependencies.
+# Android and JVM versions are pinned in the Gradle project:
+# - Java 17
+# - Android SDK Platform 36
+# - Gradle 8.13 (wrapper included)
+# - Android Gradle Plugin 8.11.1
+# - Kotlin 2.0.21
+#
+# Build with: ./gradlew.bat testDebugUnitTest assembleDebug lintDebug
