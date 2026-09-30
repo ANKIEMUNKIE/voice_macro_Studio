@@ -1,0 +1,3 @@
+<resources>
+    <string name="accessibility_description">Voice Macro Studio checks Zomato and Swiggy for sensitive screens. When you explicitly teach a command, it records safe accessibility actions and can replay the saved steps after a matching voice command. It blocks unreadable, login, OTP, password, and payment screens. You can stop or disable the service at any time.</string>
+</resources>

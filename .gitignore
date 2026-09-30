@@ -1,0 +1,27 @@
+.gradle/
+**/build/
+local.properties
+.idea/
+*.iml
+.tools/
+*.jks
+*.keystore
+secrets.properties
+
+# Hackathon submission excludes internal planning and handoff material.
+/rules.pdf
+/RUN_PROJECT.md
+/prd.md
+/prd.pdf
+/phases.md
+/phases.pdf
+/phase-1-validation.md
+/memory.md
+/implementation-plan.md
+/FRIEND-HANDOFF.md
+/DEMO-SCRIPT-AND-SUBMISSION.md
+/design.pdf
+/design.ppdf
+/architecture.pdf
+/audit-phase-1-5.md
+/DELIVERY.md
